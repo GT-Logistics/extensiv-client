@@ -76,7 +76,7 @@ final class ExtensivClient
                 yield $item;
             }
 
-            if ($paginatedResponse->hasNext()) {
+            if (!$paginatedResponse->hasNext()) {
                 break;
             }
             $path = $paginatedResponse->getNextUrl();

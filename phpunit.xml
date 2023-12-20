@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2023 GT Logistics.
+  -->
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">./test/Feature</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="EXTENSIV_USERNAME" value="user"/>
+    <env name="EXTENSIV_PASSWORD" value="pass" />
+    <env name="EXTENSIV_TPL" value="test" />
+    <env name="EXTENSIV_BASE_URI" value="https://example.com"/>
+  </php>
+</phpunit>

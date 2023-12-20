@@ -15,7 +15,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
-final class Client
+final class ExtensivClient
 {
     private ClientInterface $client;
 
@@ -48,6 +48,8 @@ final class Client
 
     /**
      * @param mixed $payload
+     *
+     * @return mixed[]
      */
     public function sendRequest(string $method, string $path, $payload = null): array
     {

@@ -1,0 +1,25 @@
+{
+    "name": "gtlogistics/extensiv-client",
+    "type": "library",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Gtlogistics\\ExtensivClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Brandon Antonio Lorenzo",
+            "email": "bantonio@gtglobal.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "php-http/client-common": "^2.7",
+        "psr/clock": "^1.0"
+    }
+}

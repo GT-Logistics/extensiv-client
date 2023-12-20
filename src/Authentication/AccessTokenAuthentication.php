@@ -14,7 +14,6 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
 final class AccessTokenAuthentication implements Authentication
@@ -29,7 +28,7 @@ final class AccessTokenAuthentication implements Authentication
 
     private string $tpl;
 
-    private ?AccessToken $token;
+    private ?AccessToken $token = null;
 
     /**
      * @internal

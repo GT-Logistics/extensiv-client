@@ -39,9 +39,9 @@ final class AccessTokenAuthentication implements Authentication
         StreamFactoryInterface $streamFactory,
         ClockInterface $clock,
         UriInterface $baseUri,
-        string $tpl,
         string $username,
-        string $password
+        string $password,
+        string $tpl
     ) {
         $this->client = new PluginClient($client, [
             new BaseUriPlugin($baseUri),
@@ -64,7 +64,7 @@ final class AccessTokenAuthentication implements Authentication
             return $this->token;
         }
 
-        $request = $this->requestFactory->createRequest('POST', 'AuthServer/api/AccessToken');
+        $request = $this->requestFactory->createRequest('POST', 'AuthServer/api/Token');
         $request = $this->serializer->serialize($request, [
             'grant_type' => 'client_credentials',
             'tpl' => $this->tpl,
@@ -81,7 +81,7 @@ final class AccessTokenAuthentication implements Authentication
          * } $data
          */
         $data = $this->serializer->deserialize($response);
-        $expires = $this->clock->now()->add(new \DateInterval("P{$data['expires_in']}S"));
+        $expires = $this->clock->now()->add(new \DateInterval("PT{$data['expires_in']}S"));
 
         return $this->token = new AccessToken($data['access_token'], $expires);
     }

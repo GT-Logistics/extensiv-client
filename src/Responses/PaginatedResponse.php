@@ -18,7 +18,7 @@ final class PaginatedResponse
      *         },
      *     },
      *     _embedded: array{
-     *         item: T[],
+     *         string: T[],
      *     },
      * }
      */
@@ -44,7 +44,7 @@ final class PaginatedResponse
      */
     public function getItems(): array
     {
-        return $this->data['_embedded']['item'];
+        return reset($this->data['_embedded']);
     }
 
     /**

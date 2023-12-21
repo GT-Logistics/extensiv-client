@@ -17,7 +17,7 @@ final class PaginatedResponse
      *             href: string,
      *         },
      *     },
-     *     _embedded: array{
+     *     _embedded?: array{
      *         string: T[],
      *     },
      * }
@@ -44,6 +44,10 @@ final class PaginatedResponse
      */
     public function getItems(): array
     {
+        if (!isset($this->data['_embedded'])) {
+            return [];
+        }
+
         return reset($this->data['_embedded']);
     }
 

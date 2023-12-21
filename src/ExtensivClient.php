@@ -3,9 +3,10 @@
 namespace Gtlogistics\ExtensivClient;
 
 use Gtlogistics\ExtensivClient\Authentication\AccessTokenAuthentication;
+use Gtlogistics\ExtensivClient\Exceptions\ExtensivException;
 use Gtlogistics\ExtensivClient\Serializer\JsonHalSerializer;
-use Gtlogistics\ExtensivClient\Serializer\JsonSerializer;
 use Gtlogistics\ExtensivClient\Responses\PaginatedResponse;
+use Gtlogistics\ExtensivClient\Serializer\SerializerInterface;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\BaseUriPlugin;
 use Http\Client\Common\PluginClient;
@@ -21,7 +22,7 @@ final class ExtensivClient
 
     private RequestFactoryInterface $requestFactory;
 
-    private JsonSerializer $serializer;
+    private SerializerInterface $serializer;
 
     public function __construct(
         ClientInterface $client,
@@ -59,8 +60,16 @@ final class ExtensivClient
         }
 
         $response = $this->client->sendRequest($request);
+        $data = $this->serializer->deserialize($response);
+        if ($response->getStatusCode() >= 400 && $response->getStatusCode() <= 599) {
+            /** @var array{Message: string}|null $data */
+            throw new ExtensivException(
+                $data['Message'] ?? $response->getReasonPhrase() ?: 'Unknown error',
+                $response->getStatusCode(),
+            );
+        }
 
-        return $this->serializer->deserialize($response);
+        return $data;
     }
 
     /**

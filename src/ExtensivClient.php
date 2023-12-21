@@ -47,11 +47,11 @@ final class ExtensivClient
     }
 
     /**
+     * @api
      * @param mixed $payload
-     *
-     * @return mixed[]
+     * @return mixed
      */
-    public function sendRequest(string $method, string $path, $payload = null): array
+    public function sendRequest(string $method, string $path, $payload = null)
     {
         $request = $this->requestFactory->createRequest($method, $path);
         if ($payload === null) {
@@ -64,12 +64,14 @@ final class ExtensivClient
     }
 
     /**
+     * @api
      * @return iterable<mixed>
      */
     public function sendRequestPaginated(string $path): iterable
     {
         while (true) {
             $data = $this->sendRequest('GET', $path);
+            /** @var PaginatedResponse<mixed> $paginatedResponse */
             $paginatedResponse = new PaginatedResponse($data);
 
             foreach ($paginatedResponse->getItems() as $item) {

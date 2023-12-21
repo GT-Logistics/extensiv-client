@@ -7,7 +7,13 @@ use Psr\Http\Message\ResponseInterface;
 
 interface SerializerInterface
 {
+    /**
+     * @param mixed $payload
+     */
     public function serialize(RequestInterface $request, $payload): RequestInterface;
 
-    public function deserialize(ResponseInterface $response): array;
+    /**
+     * @return mixed
+     */
+    public function deserialize(ResponseInterface $response);
 }

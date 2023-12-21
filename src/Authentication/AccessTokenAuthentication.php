@@ -60,7 +60,7 @@ final class AccessTokenAuthentication implements Authentication
 
     private function getToken(): AccessToken
     {
-        if ($this->token !== null && !$this->tokenIsExpired()) {
+        if (!$this->tokenIsExpired()) {
             return $this->token;
         }
 
@@ -86,8 +86,15 @@ final class AccessTokenAuthentication implements Authentication
         return $this->token = new AccessToken($data['access_token'], $expires);
     }
 
+    /**
+     * @phpstan-assert-if-false !null $this->token
+     */
     private function tokenIsExpired(): bool
     {
+        if ($this->token === null) {
+            return true;
+        }
+
         return $this->token->getExpires() <= $this->clock->now()->sub(new \DateInterval('P5M'));
     }
 }

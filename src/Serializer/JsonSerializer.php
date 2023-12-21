@@ -27,7 +27,7 @@ class JsonSerializer implements SerializerInterface
             ->withBody($this->streamFactory->createStream($encoded));
     }
 
-    public function deserialize(ResponseInterface $response): array
+    public function deserialize(ResponseInterface $response)
     {
         return json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }

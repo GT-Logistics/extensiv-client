@@ -2,14 +2,15 @@
 
 namespace Gtlogistics\ExtensivClient\Responses;
 
-use Psr\Http\Message\ResponseInterface;
-
+/**
+ * @template T
+ */
 final class PaginatedResponse
 {
     /** @var array{
      *     totalResults: int,
      *     _links: array{
-     *         prev?: array {
+     *         prev?: array{
      *             href: string,
      *         },
      *         next?: array{
@@ -17,15 +18,19 @@ final class PaginatedResponse
      *         },
      *     },
      *     _embedded: array{
-     *         item: mixed[],
+     *         item: T[],
      *     },
      * }
      */
     private array $data;
 
 
-    public function __construct(array $data)
+    /**
+     * @param mixed $data
+     */
+    public function __construct($data)
     {
+        /** @phpstan-ignore-next-line */
         $this->data = $data;
     }
 
@@ -35,7 +40,7 @@ final class PaginatedResponse
     }
 
     /**
-     * @return mixed[]
+     * @return T[]
      */
     public function getItems(): array
     {
@@ -52,7 +57,11 @@ final class PaginatedResponse
 
     public function getPrevUrl(): ?string
     {
-        return urldecode($this->data['_links']['prev']);
+        if (!isset($this->data['_links']['prev'])) {
+            return null;
+        }
+
+        return urldecode($this->data['_links']['prev']['href']);
     }
 
     /**
@@ -65,6 +74,10 @@ final class PaginatedResponse
 
     public function getNextUrl(): ?string
     {
-        return urldecode($this->data['_links']['next']);
+        if (!isset($this->data['_links']['next'])) {
+            return null;
+        }
+
+        return urldecode($this->data['_links']['next']['href']);
     }
 }
